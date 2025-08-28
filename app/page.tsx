@@ -32,18 +32,18 @@ export default function Home() {
   });
 
   return (
-    <main className="max-w-3xl mx-auto p-6 space-y-6">
-      <header className="flex items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Lateral Puzzles</h1>
+    <main className="mx-auto max-w-screen-sm sm:max-w-3xl p-4 sm:p-6 space-y-6 text-neutral-900">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 className="text-2xl sm:text-3xl font-bold">Lateral Puzzles</h1>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search title or text"
-          className="px-3 py-2 rounded-lg border border-neutral-300 w-64"
+          className="px-3 py-2 rounded-lg border border-neutral-300 w-full sm:w-64"
         />
       </header>
 
-      <p className="text-sm text-neutral-600">
+      <p className="text-sm text-neutral-700">
         Showing {visible.length} puzzles
       </p>
 
@@ -51,14 +51,19 @@ export default function Home() {
         {visible.map((p) => {
           const isFlipped = !!flipped[p.id];
           return (
-            <section key={p.id} className="rounded-2xl border bg-white shadow p-5 space-y-3">
+            <section
+              key={p.id}
+              className="rounded-2xl border bg-white shadow p-5 space-y-3"
+            >
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">{p.title_en}</h2>
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  {p.title_en}
+                </h2>
                 <button
                   onClick={() =>
                     setFlipped((f) => ({ ...f, [p.id]: !isFlipped }))
                   }
-                  className="text-sm px-3 py-1 rounded-full border border-neutral-300 hover:bg-neutral-50"
+                  className="hidden sm:inline text-sm px-3 py-1 rounded-full border border-neutral-300 hover:bg-neutral-50"
                 >
                   {isFlipped ? "Show Surface" : "Reveal Solution"}
                 </button>
@@ -74,9 +79,11 @@ export default function Home() {
                     <div className="text-xs uppercase tracking-wide text-neutral-500">
                       Surface
                     </div>
-                    <p className="leading-relaxed">{p.surface_en}</p>
+                    <p className="leading-relaxed text-neutral-900">
+                      {p.surface_en}
+                    </p>
                     <div className="text-xs text-neutral-400">
-                      (Click card to reveal solution)
+                      (Tap card to reveal solution)
                     </div>
                   </div>
                 }
@@ -85,13 +92,25 @@ export default function Home() {
                     <div className="text-xs uppercase tracking-wide text-neutral-500">
                       Solution
                     </div>
-                    <p className="leading-relaxed">{p.solution_en}</p>
+                    <p className="leading-relaxed text-neutral-900">
+                      {p.solution_en}
+                    </p>
                     <div className="text-xs text-neutral-400">
-                      (Click card to go back)
+                      (Tap card to go back)
                     </div>
                   </div>
                 }
               />
+
+              {/* Big mobile-friendly toggle button under the card */}
+              <button
+                onClick={() =>
+                  setFlipped((f) => ({ ...f, [p.id]: !isFlipped }))
+                }
+                className="mt-3 w-full sm:w-auto text-sm px-4 py-2 rounded-lg border border-neutral-300 hover:bg-neutral-50"
+              >
+                {isFlipped ? "Show Surface" : "Reveal Solution"}
+              </button>
             </section>
           );
         })}
